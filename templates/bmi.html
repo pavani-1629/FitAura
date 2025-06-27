@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BMI Calculator – FitAura</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function calculateBMI() {
+      const height = parseFloat(document.getElementById("height").value);
+      const weight = parseFloat(document.getElementById("weight").value);
+      const result = document.getElementById("result");
+
+      if (!height || !weight || height <= 0 || weight <= 0) {
+        result.innerText = "Please enter valid height and weight.";
+        return;
+      }
+
+      const heightInMeters = height / 100;
+      const bmi = (weight / (heightInMeters * heightInMeters)).toFixed(1);
+      let message = "";
+
+      if (bmi < 18.5) {
+        message = `Your BMI is ${bmi} (Underweight). Consider a protein-rich diet.`;
+      } else if (bmi < 24.9) {
+        message = `Your BMI is ${bmi} (Normal). Great job! Maintain your routine.`;
+      } else if (bmi < 29.9) {
+        message = `Your BMI is ${bmi} (Overweight). Try regular exercise & balanced meals.`;
+      } else {
+        message = `Your BMI is ${bmi} (Obese). Please consult a doctor for guidance.`;
+      }
+
+      result.innerText = message;
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-br from-green-100 to-lime-50 min-h-screen pb-32">
+  <!-- Top Navigation -->
+  <nav class="fixed top-0 left-0 right-0 bg-white shadow z-50 px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+       <div class="w-14 h-14 rounded-full border-4 border-emerald-300 overflow-hidden">
+         <img src="/static/assets/logo.png" alt="FitAura Logo" class="w-full h-full object-cover">
+       </div>
+       <h1 class="text-2xl font-bold text-emerald-600">FitAura</h1>
+    </div>
+    <div class="space-x-5 text-emerald-800 font-medium">
+      <a href="{{ url_for('index') }}" class="hover:text-emerald-500">Home</a>
+      <a href="{{ url_for('profile') }}" class="hover:text-emerald-500">Profile</a>
+      <a href="{{ url_for('about') }}" class="hover:text-emerald-500">About</a>
+      <a href="{{ url_for('logout') }}" class="hover:text-red-500">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="pt-24 px-4 max-w-xl mx-auto">
+    <h2 class="text-3xl font-bold text-emerald-700 mb-6 text-center">📏 BMI Calculator</h2>
+    <div class="bg-white p-6 rounded-xl shadow-md border border-emerald-200">
+      <label class="block mb-2 font-medium text-emerald-700">Height (cm)</label>
+      <input id="height" type="number" class="w-full mb-4 px-4 py-2 rounded border border-emerald-300" placeholder="e.g. 165">
+
+      <label class="block mb-2 font-medium text-emerald-700">Weight (kg)</label>
+      <input id="weight" type="number" class="w-full mb-4 px-4 py-2 rounded border border-emerald-300" placeholder="e.g. 60">
+
+      <button onclick="calculateBMI()" class="w-full bg-emerald-600 text-white py-2 rounded hover:bg-emerald-700">Calculate BMI</button>
+
+      <div id="result" class="mt-4 text-lg font-semibold text-gray-800"></div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-inner z-50">
+    <div class="flex justify-around items-center py-3 text-sm text-gray-700">
+      <a href="/index" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🏠</span><span>Home</span>
+      </a>
+      <a href="/bmi" class="flex flex-col items-center hover:text-emerald-700 font-bold underline">
+        <span>📏</span><span>BMI</span>
+      </a>
+      <a href="/diet" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🥗</span><span>Diet</span>
+      </a>
+      <a href="/schedule" class="flex flex-col items-center hover:text-emerald-700">
+        <span>📅</span><span>Plan</span>
+      </a>
+      <a href="/chatbot" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🤖</span><span>Bot</span>
+      </a>
+    </div>
+  </nav>
+</body>
+</html>

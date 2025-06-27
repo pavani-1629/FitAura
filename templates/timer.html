@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timer – FitAura</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    let interval;
+    let time = 0;
+
+    function startTimer() {
+      const minutes = parseInt(document.getElementById("timeInput").value) || 25;
+      time = minutes * 60;
+      updateDisplay();
+      clearInterval(interval);
+      interval = setInterval(() => {
+        if (time <= 0) {
+          clearInterval(interval);
+          alert("⏰ Time's up! Great job on your workout!");
+        } else {
+          time--;
+          updateDisplay();
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      clearInterval(interval);
+    }
+
+    function updateDisplay() {
+      let mins = Math.floor(time / 60);
+      let secs = time % 60;
+      document.getElementById("timerDisplay").textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-br from-green-100 to-lime-50 min-h-screen pb-32">
+
+  <!-- Top Navigation -->
+  <nav class="fixed top-0 left-0 right-0 bg-white shadow z-50 px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-emerald-600">🌿 FitAura</h1>
+    <div class="space-x-5 text-emerald-800 font-medium">
+      <a href="/index" class="hover:text-emerald-500">Home</a>
+      <a href="/profile" class="hover:text-emerald-500">Profile</a>
+      <a href="/about" class="hover:text-emerald-500">About</a>
+      <a href="/logout" class="hover:text-red-500">Logout</a>
+    </div>
+  </nav>
+
+  <main class="pt-28 px-4 max-w-5xl mx-auto">
+
+    <!-- Input Section -->
+    <section class="mb-10">
+      <h2 class="text-3xl font-bold text-emerald-700 mb-4">🎯 Get Exercises for Your Goal</h2>
+      <form method="POST" action="/timer" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <input type="text" name="goal" placeholder="Your Fitness Goal (e.g. Lose belly fat)" class="px-4 py-2 border border-emerald-300 rounded" required>
+        <input type="number" name="age" placeholder="Age" class="px-4 py-2 border border-emerald-300 rounded" required>
+        <select name="gender" class="px-4 py-2 border border-emerald-300 rounded" required>
+          <option value="" disabled selected>Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+        <button type="submit" class="bg-emerald-600 text-white px-6 py-2 rounded hover:bg-emerald-700">Get Plan</button>
+      </form>
+    </section>
+
+    <!-- Result Section -->
+    {% if result %}
+    <section class="mb-10">
+      <h2 class="text-2xl font-bold text-emerald-700 mb-4">💪 Your Exercise Plan & Tips</h2>
+      <div class="bg-white p-4 rounded shadow whitespace-pre-line text-gray-800 text-base border border-emerald-200">
+        {{ result }}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- Pomodoro Fitness Timer -->
+    <section class="text-center mb-10">
+      <h2 class="text-2xl font-bold text-emerald-700 mb-4">⏱️ Set Your Fitness Timer</h2>
+      <div class="inline-block px-8 py-6 bg-white rounded-xl shadow border border-emerald-200">
+        <input id="timeInput" type="number" placeholder="Minutes (e.g. 45)" class="mb-4 px-3 py-2 rounded border border-emerald-300">
+        <div id="timerDisplay" class="text-4xl font-bold text-emerald-700 mb-4">00:00</div>
+        <div class="flex gap-4 justify-center">
+          <button onclick="startTimer()" class="bg-emerald-600 text-white px-6 py-2 rounded hover:bg-emerald-700">▶️ Start</button>
+          <button onclick="pauseTimer()" class="bg-yellow-500 text-white px-6 py-2 rounded hover:bg-yellow-600">⏸️ Pause</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Static Health Tips -->
+    <section class="mb-20">
+      <h2 class="text-2xl font-bold text-emerald-700 mb-4">🧠 General Health Tips</h2>
+      <ul class="list-disc pl-6 space-y-2 text-gray-700 text-base">
+        <li>Drink 2–3 liters of water daily 🚰</li>
+        <li>Get 7–8 hours of quality sleep 😴</li>
+        <li>Eat green vegetables and proteins 🥦</li>
+        <li>Practice meditation or deep breathing 🧘</li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-inner z-50">
+    <div class="flex justify-around items-center py-3 text-sm text-gray-700">
+      <a href="/index" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🏠</span><span>Home</span>
+      </a>
+      <a href="/bmi" class="flex flex-col items-center hover:text-emerald-700">
+        <span>📏</span><span>BMI</span>
+      </a>
+      <a href="/diet" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🥗</span><span>Diet</span>
+      </a>
+      <a href="/schedule" class="flex flex-col items-center hover:text-emerald-700">
+        <span>📅</span><span>Plan</span>
+      </a>
+      <a href="/chatbot" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🤖</span><span>Bot</span>
+      </a>
+    </div>
+  </nav>
+
+</body>
+</html>

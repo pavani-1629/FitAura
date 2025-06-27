@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FitAura | Diet Planner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen pb-32">
+
+  <!-- 🔝 Top Navbar -->
+  <nav class="bg-white shadow-md py-4 px-6 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+    <div class="flex items-center space-x-4">
+       <div class="w-14 h-14 rounded-full border-4 border-emerald-300 overflow-hidden">
+         <img src="/static/assets/logo.png" alt="FitAura Logo" class="w-full h-full object-cover">
+       </div>
+       <h1 class="text-2xl font-bold text-emerald-600">FitAura</h1>
+    </div>
+    <div class="space-x-6 text-green-800 font-medium">
+      <a href="/index" class="hover:text-green-600">Home</a>
+      <a href="/profile" class="hover:text-green-600">Profile</a>
+      <a href="/diet" class="hover:text-green-600 font-bold underline">Diet</a>
+      <a href="/logout" class="hover:text-red-500">Logout</a>
+    </div>
+  </nav>
+
+  <div class="max-w-4xl mx-auto space-y-10 pt-28 px-4">
+
+    <!-- 🔹 Section 1: General Goal-Based Diet -->
+    <section class="bg-white shadow-lg rounded-2xl p-6">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4">General Diet Recommendation</h2>
+
+      <form id="goalForm" method="POST" action="/diet/general" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">Age:</label>
+            <input type="number" name="age" required class="w-full border p-2 rounded" placeholder="Enter age">
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">Gender:</label>
+            <select name="gender" class="w-full border p-2 rounded">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">Diet Preference:</label>
+            <select name="diet_type" class="w-full border p-2 rounded">
+              <option value="veg">Vegetarian 🌱</option>
+              <option value="both">Veg & Non-Veg 🍗</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">Your Goal:</label>
+            <input type="text" name="goal" required class="w-full border p-2 rounded" placeholder="e.g., Grow tall, gain weight">
+          </div>
+        </div>
+
+        <button type="submit"
+                class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition">
+          Get My Diet Plan
+        </button>
+      </form>
+    </section>
+
+    <!-- 🔹 Section 2: Health Condition (Gemini Based) -->
+    <section class="bg-white shadow-lg rounded-2xl p-6">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Medical Diet Recommendation</h2>
+
+      <form id="conditionForm" method="POST" action="/diet/condition" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">Age:</label>
+            <input type="number" name="age" required class="w-full border p-2 rounded">
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">Gender:</label>
+            <select name="gender" class="w-full border p-2 rounded">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">Weight (kg):</label>
+            <input type="number" name="weight" required class="w-full border p-2 rounded">
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">Height (cm):</label>
+            <input type="number" name="height" required class="w-full border p-2 rounded">
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">Your Goal:</label>
+            <input type="text" name="goal" required class="w-full border p-2 rounded" placeholder="e.g., Gain weight, reduce BP">
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">Health Condition:</label>
+            <input type="text" name="condition" required class="w-full border p-2 rounded"
+                   placeholder="e.g., Diabetes, PCOS, High BP, Thyroid">
+          </div>
+        </div>
+
+        <button type="submit"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition">
+          Get Condition-Based Diet
+        </button>
+      </form>
+    </section>
+
+  </div>
+
+  <!-- 🔻 Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-inner z-50">
+    <div class="flex justify-around items-center py-3 text-sm text-gray-700">
+      <a href="/index" class="flex flex-col items-center hover:text-green-700">
+        <span>🏠</span><span>Home</span>
+      </a>
+      <a href="/bmi" class="flex flex-col items-center hover:text-green-700">
+        <span>📏</span><span>BMI</span>
+      </a>
+      <a href="/diet" class="flex flex-col items-center hover:text-green-700 font-bold underline">
+        <span>🥗</span><span>Diet</span>
+      </a>
+      <a href="/schedule" class="flex flex-col items-center hover:text-green-700">
+        <span>📅</span><span>Plan</span>
+      </a>
+      <a href="/chatbot" class="flex flex-col items-center hover:text-green-700">
+        <span>🤖</span><span>Bot</span>
+      </a>
+    </div>
+  </nav>
+
+</body>
+</html>

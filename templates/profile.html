@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FitAura – Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-tr from-green-50 to-lime-100 min-h-screen pb-32">
+
+  <!-- 🔝 Top Navigation -->
+  <nav class="bg-white shadow-md py-4 px-6 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+    <div class="flex items-center space-x-4">
+      <div class="w-14 h-14 rounded-full border-4 border-emerald-300 overflow-hidden">
+         <img src="/static/assets/logo.png" alt="FitAura Logo" class="w-full h-full object-cover">
+      </div>
+      <h1 class="text-2xl font-bold text-emerald-600">FitAura</h1>
+    </div>
+    <div class="space-x-6 text-emerald-800 font-medium">
+      <a href="/index" class="hover:text-emerald-600">Home</a>
+      <a href="/profile" class="hover:text-emerald-600 font-bold underline">Profile</a>
+      <a href="/about" class="hover:text-emerald-600">About</a>
+      <a href="/logout" class="hover:text-red-500">Logout</a>
+    </div>
+  </nav>
+
+  <!-- 👤 Profile Section -->
+  <main class="pt-28 max-w-3xl mx-auto px-4">
+    <div class="bg-white p-8 rounded-3xl shadow-xl text-center space-y-4">
+      <img src="/static/assets/profile.jpg" alt="User Avatar" class="w-28 h-28 rounded-full mx-auto mb-4 shadow-md border-4 border-emerald-200">
+      <h2 class="text-3xl font-bold text-emerald-700">Welcome, {{ user.username }}</h2>
+      <p class="text-gray-600 text-lg">You're part of the FitAura family 🌿</p>
+
+      <div class="mt-6 text-left space-y-4 text-gray-700">
+        <div class="flex items-center space-x-3">
+          <span class="text-emerald-600 text-xl">📧</span>
+          <p><strong>Email:</strong> {{ user.email }}</p>
+        </div>
+        <div class="flex items-center space-x-3">
+          <span class="text-emerald-600 text-xl">🎫</span>
+          <p><strong>Membership:</strong> Basic Plan</p>
+        </div>
+        <div class="flex items-center space-x-3">
+          <span class="text-emerald-600 text-xl">📅</span>
+          <p><strong>Joined:</strong> June 2025</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 📱 Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-inner z-50">
+    <div class="flex justify-around items-center py-3 text-sm text-gray-700">
+      <a href="/index" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🏠</span><span>Home</span>
+      </a>
+      <a href="/bmi" class="flex flex-col items-center hover:text-emerald-700">
+        <span>📏</span><span>BMI</span>
+      </a>
+      <a href="/diet" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🥗</span><span>Diet</span>
+      </a>
+      <a href="/schedule" class="flex flex-col items-center hover:text-emerald-700">
+        <span>📅</span><span>Plan</span>
+      </a>
+      <a href="/chatbot" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🤖</span><span>Bot</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- 🔻 Footer -->
+  <footer class="text-center mt-16 text-gray-600 text-sm py-4">
+    Designed & Developed 💚 by <strong>Pavani Parla</strong> • © 2025 FitAura
+  </footer>
+
+</body>
+</html>

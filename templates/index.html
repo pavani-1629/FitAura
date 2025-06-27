@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FitAura – Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+ <script>
+   window.OneSignalDeferred = window.OneSignalDeferred || [];
+   OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "293f4fb5-ebaf-4915-a052-c784b278f2d5",
+      notifyButton: { enable: true },  //  shows the bell icon
+      externalUserId: "{{ session['user']['email'] if session['user'] else '' }}"  //  tracks user
+    });
+  });
+ </script>
+
+</head>
+
+<body class="bg-gradient-to-tr from-green-50 to-lime-100 min-h-screen pb-36">
+
+  <!-- 🔝 Top Navigation -->
+  <nav class="bg-white shadow-md py-4 px-6 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+    <div class="flex items-center space-x-4">
+       <div class="w-14 h-14 rounded-full border-4 border-emerald-300 overflow-hidden">
+         <img src="/static/assets/logo.png" alt="FitAura Logo" class="w-full h-full object-cover">
+       </div>
+       <h1 class="text-2xl font-bold text-emerald-600">FitAura</h1>
+    </div>
+    <div class="space-x-6 text-emerald-800 font-medium">
+      <a href="/profile" class="hover:text-emerald-600">Profile</a>
+      <a href="/about" class="hover:text-emerald-600">About</a>
+      <a href="/logout" class="hover:text-red-500">Logout</a>
+    </div>
+  </nav>
+
+  <!-- 🔰 Dashboard Content -->
+  <main class="pt-24 px-4">
+    <header class="text-center mb-10">
+      <div class="flex items-center space-x-4">
+             <h2 class="text-4xl font-bold text-emerald-700">💚 Welcome to FitAura!</h2>
+        </div>
+
+      <p class="text-lg text-gray-600 mt-2">Your personal health and wellness companion</p>
+    </header>
+
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <a href="/bmi" class="bg-white rounded-3xl p-6 text-center shadow-lg border-2 border-emerald-200 hover:scale-105 transition">
+        <h3 class="text-2xl font-bold text-emerald-700 mb-2">📏 BMI Calculator</h3>
+        <p class="text-gray-600">Track your fitness level instantly.</p>
+      </a>
+
+      <a href="/diet" class="bg-white rounded-3xl p-6 text-center shadow-lg border-2 border-lime-200 hover:scale-105 transition">
+        <h3 class="text-2xl font-bold text-lime-700 mb-2">🥗 Diet Planner</h3>
+        <p class="text-gray-600">Customized plans for all diets.</p>
+      </a>
+
+      <a href="/schedule" class="bg-white rounded-3xl p-6 text-center shadow-lg border-2 border-emerald-300 hover:scale-105 transition">
+        <h3 class="text-2xl font-bold text-emerald-800 mb-2">🕒 Scheduler</h3>
+        <p class="text-gray-600">Plan your water, meds, and exercises.</p>
+      </a>
+
+      <a href="/timer" class="bg-white rounded-3xl p-6 text-center shadow-lg border-2 border-pink-300 hover:scale-105 transition">
+        <h3 class="text-2xl font-bold text-pink-700 mb-2">⏱️ Fitness Timer</h3>
+        <p class="text-gray-600">Boost your focus with Pomodoro, and get personalized workouts & wellness tips.</p>
+      </a>
+
+      <a href="/chatbot" class="bg-white rounded-3xl p-6 text-center shadow-lg border-2 border-yellow-300 hover:scale-105 transition">
+        <h3 class="text-2xl font-bold text-yellow-600 mb-2">🤖 AuraMate</h3>
+        <p class="text-gray-600">Talk to your health buddy anytime!</p>
+      </a>
+    </section>
+  </main>
+
+  <!-- 📱 Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-inner z-50">
+    <div class="flex justify-around items-center py-3 text-sm text-gray-700">
+      <a href="/index" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🏠</span><span>Home</span>
+      </a>
+      <a href="/bmi" class="flex flex-col items-center hover:text-emerald-700">
+        <span>📏</span><span>BMI</span>
+      </a>
+      <a href="/diet" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🥗</span><span>Diet</span>
+      </a>
+      <a href="/schedule" class="flex flex-col items-center hover:text-emerald-700">
+        <span>📅</span><span>Plan</span>
+      </a>
+      <a href="/chatbot" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🤖</span><span>Bot</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- 🔻 Footer -->
+  <footer class="text-center mt-16 text-gray-600 text-sm py-4">
+    Designed & Developed 💚 by <strong>Pavani Parla</strong> • © 2025 FitAura
+  </footer>
+
+</body>
+</html>
