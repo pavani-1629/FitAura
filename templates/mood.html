@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FitAura – Mood Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-lime-100 to-emerald-50 min-h-screen pb-48">
+
+  <!-- 🔝 Top Navigation -->
+  <nav class="bg-white shadow-md py-4 px-6 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+    <div class="flex items-center space-x-4">
+      <div class="w-14 h-14 rounded-full border-4 border-emerald-300 overflow-hidden">
+        <img src="/static/assets/logo.png" alt="FitAura Logo" class="w-full h-full object-cover">
+      </div>
+      <h1 class="text-2xl font-bold text-emerald-600">FitAura</h1>
+    </div>
+    <div class="space-x-6 text-emerald-800 font-medium">
+      <a href="/index" class="hover:text-emerald-600">Home</a>
+      <a href="/profile" class="hover:text-emerald-600">Profile</a>
+      <a href="/about" class="hover:text-emerald-600">About</a>
+      <a href="/logout" class="hover:text-red-500">Logout</a>
+    </div>
+  </nav>
+
+  <!-- 😊 Mood Tracker Section -->
+  <main class="pt-28 max-w-xl mx-auto px-4 space-y-10">
+
+    <!-- Mood Tracker -->
+    <section class="bg-white p-6 rounded-3xl shadow-lg text-center space-y-6">
+      <h2 class="text-2xl font-bold text-emerald-700">How are you feeling today?</h2>
+      <div class="grid grid-cols-4 sm:grid-cols-8 gap-4 text-4xl justify-items-center">
+        <button onclick="setMood('happy')">😄<div class="text-sm text-gray-600 mt-1">Happy</div></button>
+        <button onclick="setMood('calm')">😊<div class="text-sm text-gray-600 mt-1">Calm</div></button>
+        <button onclick="setMood('neutral')">😐<div class="text-sm text-gray-600 mt-1">Neutral</div></button>
+        <button onclick="setMood('sad')">😔<div class="text-sm text-gray-600 mt-1">Sad</div></button>
+        <button onclick="setMood('cry')">😭<div class="text-sm text-gray-600 mt-1">Crying</div></button>
+        <button onclick="setMood('tired')">😩<div class="text-sm text-gray-600 mt-1">Tired</div></button>
+        <button onclick="setMood('stressed')">😣<div class="text-sm text-gray-600 mt-1">Stressed</div></button>
+        <button onclick="setMood('confused')">🤔<div class="text-sm text-gray-600 mt-1">Confused</div></button>
+      </div>
+      <div id="quote" class="mt-2 text-emerald-600 font-semibold text-lg"></div>
+    </section>
+
+    <!-- To-Do Section -->
+    <section class="bg-white p-6 rounded-3xl shadow-lg text-center space-y-4">
+      <h3 class="text-xl font-semibold text-emerald-700">📝 What did you do today?</h3>
+      <div class="flex flex-col sm:flex-row gap-2">
+        <input type="text" id="taskInput" class="flex-1 border border-emerald-300 rounded-lg px-3 py-2" placeholder="Add a task..." />
+        <input type="date" id="taskDate" class="border border-emerald-300 rounded-lg px-3 py-2" />
+        <button onclick="addTask()" class="bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600">Add</button>
+      </div>
+      <ul id="taskList" class="text-left mt-4 space-y-2 text-gray-700"></ul>
+    </section>
+
+    <!-- Water Tracker -->
+    <section class="bg-white p-6 rounded-3xl shadow-lg text-center space-y-6">
+      <h3 class="text-xl font-semibold text-emerald-700">💧 Water Intake Tracker</h3>
+      <div class="flex flex-col gap-4 items-center">
+        <label class="text-gray-600 text-sm">
+          Daily Goal:
+          <input type="number" id="waterGoal" value="2000" class="w-24 text-center border rounded px-2 py-1 ml-2" /> ml
+        </label>
+        <p class="text-xs text-emerald-500">💧 A healthy adult should drink around 2000ml water daily. Adjust based on your body & activity!</p>
+        <div class="flex gap-2">
+          <input type="number" id="customWaterAmount" placeholder="Amount (ml)" class="w-32 border rounded px-3 py-2" />
+          <button onclick="addWater()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add</button>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-5">
+          <div id="waterProgress" class="bg-blue-500 h-5 rounded-full transition-all duration-500 ease-in-out" style="width: 0%;"></div>
+        </div>
+        <p id="waterStatus" class="text-gray-700 font-medium"></p>
+        <p id="waterSuggestion" class="text-sm text-emerald-600 font-semibold"></p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 📱 Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-inner z-50">
+    <div class="flex justify-around items-center py-3 text-sm text-gray-700">
+      <a href="/index" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🏠</span><span>Home</span>
+      </a>
+      <a href="/bmi" class="flex flex-col items-center hover:text-emerald-700">
+        <span>📏</span><span>BMI</span>
+      </a>
+      <a href="/diet" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🥗</span><span>Diet</span>
+      </a>
+      <a href="/mood" class="flex flex-col items-center hover:text-emerald-700">
+        <span>📅</span><span>Plan</span>
+      </a>
+      <a href="/chatbot" class="flex flex-col items-center hover:text-emerald-700">
+        <span>🤖</span><span>Bot</span>
+      </a>
+    </div>
+  </nav>
+
+  <footer class="text-center mt-16 text-gray-600 text-sm py-4">
+    Designed & Developed 💚 by <strong>Pavani Parla</strong> • © 2025 FitAura
+  </footer>
+
+  <!-- JavaScript Logic -->
+  <script>
+    const quotes = {
+  happy: [
+    "Smile, it's free therapy.",
+    "Happiness is not by chance, but by choice.",
+    "You deserve to live a life you're excited about.",
+    "Choose joy every single day.",
+    "Be so happy that others catch your vibe.",
+    "Happiness blooms from within.",
+    "Wherever you go, bring your sunshine.",
+    "A happy heart makes the face cheerful.",
+    "Joy is your superpower.",
+    "Celebrate every small win.",
+    "Let your joy light up the world.",
+    "The purpose of our lives is to be happy.",
+    "True happiness arises from within.",
+    "Collect moments, not things.",
+    "You're radiating positive energy!"
+  ],
+  calm: [
+    "Peace begins with a smile.",
+    "Stay patient and trust your journey.",
+    "Serenity is peace amid the storm.",
+    "The quieter you become, the more you can hear.",
+    "Inhale peace. Exhale chaos.",
+    "Let your soul catch up with your body.",
+    "Stillness speaks louder than noise.",
+    "Pause. Breathe. Center yourself.",
+    "Don't rush anything. Good things take time.",
+    "A calm mind is a powerful tool.",
+    "Peace is your natural state.",
+    "Let go. Let peace in.",
+    "Calmness is the cradle of power.",
+    "You’re the calm in the chaos.",
+    "Peace is always beautiful."
+  ],
+  neutral: [
+    "It’s okay to be okay.",
+    "Balance is something you create.",
+    "Ordinary days lead to extraordinary ones.",
+    "Keep going, even on quiet days.",
+    "Consistency is key to success.",
+    "Neutral is not nothing; it’s necessary.",
+    "You’re doing better than you think.",
+    "Rest without guilt.",
+    "Small steps matter.",
+    "Progress, not perfection.",
+    "You're allowed to just be.",
+    "Embrace the ordinary.",
+    "Just showing up is enough.",
+    "Every day is a fresh start.",
+    "Neutral days are part of your progress."
+  ],
+  sad: [
+    "This too shall pass.",
+    "You are not alone.",
+    "Sadness gives depth, happiness gives height.",
+    "You’ve survived 100% of your worst days.",
+    "Crying doesn’t mean weak – it means human.",
+    "You matter more than you know.",
+    "Healing takes time. Be gentle with yourself.",
+    "Even the darkest night ends in sunrise.",
+    "Let yourself feel. Healing is happening.",
+    "Stars can't shine without darkness.",
+    "You grow through what you go through.",
+    "Feelings are valid, let them exist.",
+    "Behind every sad soul is a fighter.",
+    "Don’t let a bad day define you.",
+    "Tears are just words the heart can't say."
+  ],
+  cry: [
+    "Tears water the seeds of your strength.",
+    "After every tear, comes a rainbow.",
+    "Crying is healing – let it out.",
+    "It’s okay to cry. You’re human.",
+    "You are allowed to break down.",
+    "Your emotions are valid. Let them breathe.",
+    "Vulnerability is bravery.",
+    "Let your tears speak your truth.",
+    "Crying shows your depth, not weakness.",
+    "Behind every tear is strength.",
+    "Sometimes, crying is the medicine.",
+    "Tears cleanse the soul.",
+    "Even flowers need water.",
+    "Pain will pass, but growth remains.",
+    "Your heart is finding peace through tears."
+  ],
+  tired: [
+    "Rest is productive too.",
+    "You’ve done enough today.",
+    "Recharge now. Rise stronger.",
+    "You’re tired because you’ve been trying.",
+    "Even the sun sets to rise again.",
+    "It’s okay to pause. You’re human.",
+    "Don't burn out to shine bright.",
+    "Listen to your body – it knows best.",
+    "Rest is not a weakness. It’s wisdom.",
+    "Sleep heals more than we think.",
+    "Being tired means you've been strong.",
+    "Your worth isn’t in your productivity.",
+    "Be gentle with yourself today.",
+    "Rest and restore – you deserve it.",
+    "Energy returns. Be patient."
+  ],
+  stressed: [
+    "Breathe. You’ve made it this far.",
+    "You are more than your stress.",
+    "Overthinking is the enemy of peace.",
+    "Do what you can, let go of the rest.",
+    "One thing at a time. You're doing enough.",
+    "You don’t have to carry it all.",
+    "Stress is temporary. Strength is permanent.",
+    "Let go of what you can’t control.",
+    "Slow down. You’re allowed to.",
+    "Choose peace over perfection.",
+    "You’re not alone in this.",
+    "This feeling will pass.",
+    "Prioritize your peace.",
+    "You got this – trust yourself.",
+    "Sometimes doing nothing is something."
+  ],
+  confused: [
+    "It’s okay not to have all the answers.",
+    "Confusion is the doorway to clarity.",
+    "You don’t have to figure it all out now.",
+    "Every journey starts with a question.",
+    "Clarity comes with time.",
+    "Stay curious. Stay open.",
+    "Even the wise get confused.",
+    "Ask, learn, repeat.",
+    "Confusion leads to discovery.",
+    "It’s not chaos – it’s transformation.",
+    "Take a breath – clarity will come.",
+    "You are learning and growing.",
+    "The fog will lift. Trust the path.",
+    "Being confused means you’re thinking.",
+    "Your path will reveal itself soon."
+  ]
+};
+
+
+    function setMood(mood) {
+      const moodQuotes = quotes[mood] || [];
+      const randomQuote = moodQuotes[Math.floor(Math.random() * moodQuotes.length)];
+      document.getElementById("quote").textContent = randomQuote;
+    }
+
+    function addTask() {
+      const input = document.getElementById("taskInput");
+      const date = document.getElementById("taskDate").value;
+      const task = input.value.trim();
+      if (task === "") return;
+
+      const li = document.createElement("li");
+      li.className = "flex flex-col sm:flex-row sm:items-center justify-between bg-emerald-50 px-3 py-2 rounded-lg shadow";
+
+      let dateDisplay = date ? `<span class="text-sm text-gray-500">📅 ${date}</span>` : "";
+
+      li.innerHTML = `
+        <div class="flex-1">
+          <span>${task}</span>
+          ${dateDisplay}
+        </div>
+        <button onclick="this.parentElement.remove()" class="text-red-500 hover:text-red-700 text-sm">❌</button>
+      `;
+      document.getElementById("taskList").appendChild(li);
+
+      input.value = "";
+      document.getElementById("taskDate").value = "";
+    }
+
+    let waterConsumed = 0;
+
+    function addWater() {
+      const inputAmount = parseInt(document.getElementById("customWaterAmount").value);
+      const goal = parseInt(document.getElementById("waterGoal").value);
+      if (isNaN(inputAmount) || inputAmount <= 0) {
+        alert("Please enter a valid amount of water.");
+        return;
+      }
+
+      waterConsumed += inputAmount;
+      if (waterConsumed > goal) waterConsumed = goal;
+
+      const percentage = Math.round((waterConsumed / goal) * 100);
+      document.getElementById("waterProgress").style.width = percentage + "%";
+      document.getElementById("waterStatus").textContent = `You drank ${waterConsumed}ml / ${goal}ml today`;
+
+      const remaining = goal - waterConsumed;
+      if (remaining > 0) {
+        document.getElementById("waterSuggestion").textContent = `You need to drink ${remaining}ml more to meet your goal! 💧`;
+      } else {
+        document.getElementById("waterSuggestion").textContent = `Goal reached! Great job staying hydrated! 🎉`;
+      }
+
+      if (percentage < 50) {
+        document.getElementById("waterSuggestion").textContent += " Keep sipping! 🫗";
+      } else if (percentage < 100) {
+        document.getElementById("waterSuggestion").textContent += " Almost there! 💪";
+      } else {
+        document.getElementById("waterSuggestion").textContent += " You're a hydration hero! 💦";
+      }
+
+      document.getElementById("customWaterAmount").value = "";
+    }
+  </script>
+
+</body>
+</html>
