@@ -113,7 +113,7 @@ def diet_general():
     prompt = (
         f"You are a professional human dietician. Suggest a healthy {diet_type} diet plan for a {gender}, age {age}, "
         f"who wants to {goal}. The response must be clear, look real, and feel like advice from a doctor. "
-        f"Avoid using asterisks (*), don't say 'as an AI', and explain step-by-step with emojis to improve clarity step BY Step clearly like a doctor."
+        f"Avoid using asterisks (*), don't say 'as an AI', and explain step-by-step with emojis to improve clarity step by step , assume you are a doctor."
     )
     try:
         result = model.generate_content(prompt).text
@@ -131,8 +131,8 @@ def diet_condition():
     condition = request.form["condition"]
     prompt = (
         f"You are a certified nutritionist. Suggest a complete diet plan for a {gender}, age {age}, {weight}kg, {height}cm, "
-        f"who has {condition} and wants to {goal}. The recommendation should sound like it’s coming from a doctor , assume you are a doctor, "
-        f"be practical, step-by-step, and include clear instructions with relevant emojis. No asterisks (*) or AI-related phrases step by step clearly like a doctor."
+        f"who has {condition} and wants to {goal}. The recommendation should sound like it’s coming from a doctor, "
+        f"be practical, step-by-step, and include clear instructions with relevant emojis. No asterisks (*) or AI-related phrases step by step and assume you are doctor."
     )
     try:
         result = model.generate_content(prompt).text
@@ -181,7 +181,7 @@ def timer():
         gender = request.form["gender"]
         prompt = (
             f"You are a certified fitness trainer. Provide a detailed step-by-step plan for a {age}-year-old {gender} with the goal '{goal}'. "
-            f"Ensure the advice sounds human and expert-level, not AI-generated. Use clear steps and include emojis for better understanding. Avoid using asterisks (*) and robotic tone , assume you are the doctor or fitness trainer , give step by step."
+            f"Ensure the advice sounds human and expert-level, not AI-generated. Use clear steps and include emojis for better understanding. Avoid using asterisks (*) and robotic tone Assume you are a doctor or fitness trainer."
         )
         try:
             result = model.generate_content(prompt).text
