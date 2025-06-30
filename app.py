@@ -215,7 +215,7 @@ def task_reminder():
             except Exception as e:
                 print(f"❌ Failed to send email to {task.user_email}: {e}")
 
-scheduler.start()
+
 
 @app.route("/diet/general", methods=["POST"])
 def diet_general():
