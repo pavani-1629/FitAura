@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Task Scheduler – FitAura</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-green-100 min-h-screen p-6">
+  <div class="max-w-xl mx-auto bg-white rounded-2xl shadow-lg p-6 mt-10">
+    <h2 class="text-2xl font-bold text-center text-emerald-700 mb-6">📅 Schedule a Task</h2>
+    <form action="/schedule" method="POST" class="space-y-4">
+      <input type="text" name="task" placeholder="Enter your task" class="w-full p-3 border rounded-lg" required>
+      <input type="datetime-local" name="task_time" class="w-full p-3 border rounded-lg" required>
+      <button type="submit" class="bg-emerald-600 text-white w-full p-3 rounded-xl hover:bg-emerald-700 transition">
+        Save Task
+      </button>
+    </form>
+  </div>
+</body>
+</html>
