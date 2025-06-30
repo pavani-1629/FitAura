@@ -132,22 +132,25 @@ def schedule():
     if "user" not in session:
         return redirect("/login")
 
+    user_email = session["user"]["email"]
+
     if request.method == "POST":
         task = request.form["task"]
         task_time = request.form["task_time"]
-        user_email = session["user"]["email"]
 
         new_task = Task(
             user_email=user_email,
             task=task,
-            date=task_time.split("T")[0],  # extract just the date
+            date=task_time.split("T")[0],
             task_time=datetime.strptime(task_time, "%Y-%m-%dT%H:%M")
         )
         db.session.add(new_task)
         db.session.commit()
-        return redirect("/mood")  # or /index or show a flash message
 
-    return render_template("schedule.html")
+    # ✅ Always fetch updated tasks and render them
+    tasks = Task.query.filter_by(user_email=user_email).order_by(Task.task_time.asc()).all()
+
+    return render_template("schedule.html", tasks=tasks)
 
 
 @app.route("/diet")
