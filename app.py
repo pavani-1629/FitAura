@@ -141,6 +141,7 @@ def delete_task(task_id):
     
 @app.route("/schedule", methods=["GET", "POST"])
 def schedule():
+    print("in schedule")
     if "user" not in session:
         return redirect("/login")
 
@@ -167,6 +168,7 @@ def schedule():
 
 @app.route("/diet")
 def diet():
+    print("in diet")
     return render_template("diet.html")
 
 @app.route("/test-email")
