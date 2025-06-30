@@ -163,7 +163,7 @@ def test_email():
         msg = Message(
             subject="📧 Test Email",
             sender=app.config['MAIL_USERNAME'],
-            recipients=["yourgmail@gmail.com"],  # your actual email here
+            recipients=["rakeshpavanmudidana@gmail.com"],  # your actual email here
             body="This is a test email from FitAura."
         )
         mail.send(msg)
