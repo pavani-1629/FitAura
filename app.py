@@ -126,6 +126,18 @@ def about():
 @app.route("/bmi")
 def bmi():
     return render_template("bmi.html")
+
+@app.route("/delete-task/<int:task_id>", methods=["POST"])
+def delete_task(task_id):
+    if "user" not in session:
+        return redirect("/login")
+
+    task = Task.query.get(task_id)
+    if task and task.user_email == session["user"]["email"]:
+        db.session.delete(task)
+        db.session.commit()
+    return redirect("/schedule")
+
     
 @app.route("/schedule", methods=["GET", "POST"])
 def schedule():
@@ -146,10 +158,10 @@ def schedule():
         )
         db.session.add(new_task)
         db.session.commit()
+        return redirect("/schedule")
 
-    # ✅ Always fetch updated tasks and render them
-    tasks = Task.query.filter_by(user_email=user_email).order_by(Task.task_time.asc()).all()
-
+    # ✅ Get tasks for current user
+    tasks = Task.query.filter_by(user_email=user_email).order_by(Task.task_time).all()
     return render_template("schedule.html", tasks=tasks)
 
 
