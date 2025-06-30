@@ -218,14 +218,12 @@ def forgot_password():
     return render_template("forgot_password.html")
 
 # ========== INIT ==========
+# Only initialize DB if running directly (optional for Render)
 if __name__ == "__main__":
     print("📁 Initializing database...")
     with app.app_context():
         db.create_all()
         print("✅ Tables created!")
 
-    port = int(os.environ.get("PORT", 3000))  # 💥 Ensure it's 3000 for Glitch
-    print(f"🌐 Starting Flask on port {port}")
-    app.run(host="0.0.0.0", port=port)
 
 
