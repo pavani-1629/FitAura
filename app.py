@@ -208,6 +208,7 @@ def task_reminder():
                 mail.send(msg)
                 task.notified = True
                 db.session.commit()
+                return "✅ Email sent!" + task.user_email
                 print(f"✅ Email sent to {task.user_email}")
             except Exception as e:
                 print(f"❌ Failed to send email: {e}")
