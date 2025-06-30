@@ -139,31 +139,31 @@ def delete_task(task_id):
     return redirect("/schedule")
 
     
-@app.route("/schedule", methods=["GET", "POST"])
-def schedule():
-    print("in schedule")
-    if "user" not in session:
-        return redirect("/login")
+# @app.route("/schedule", methods=["GET", "POST"])
+# def schedule():
+#     print("in schedule")
+#     if "user" not in session:
+#         return redirect("/login")
 
-    user_email = session["user"]["email"]
+#     user_email = session["user"]["email"]
 
-    if request.method == "POST":
-        task = request.form["task"]
-        task_time = request.form["task_time"]
+#     if request.method == "POST":
+#         task = request.form["task"]
+#         task_time = request.form["task_time"]
 
-        new_task = Task(
-            user_email=user_email,
-            task=task,
-            date=task_time.split("T")[0],
-            task_time=datetime.strptime(task_time, "%Y-%m-%dT%H:%M")
-        )
-        db.session.add(new_task)
-        db.session.commit()
-        return redirect("/schedule")
+#         new_task = Task(
+#             user_email=user_email,
+#             task=task,
+#             date=task_time.split("T")[0],
+#             task_time=datetime.strptime(task_time, "%Y-%m-%dT%H:%M")
+#         )
+#         db.session.add(new_task)
+#         db.session.commit()
+#         return redirect("/schedule")
 
-    # ✅ Get tasks for current user
-    tasks = Task.query.filter_by(user_email=user_email).order_by(Task.task_time).all()
-    return render_template("schedule.html", tasks=tasks)
+#     # ✅ Get tasks for current user
+#     tasks = Task.query.filter_by(user_email=user_email).order_by(Task.task_time).all()
+#     return render_template("schedule.html", tasks=tasks)
 
 
 @app.route("/diet")
@@ -185,35 +185,35 @@ def test_email():
     except Exception as e:
         return f"❌ Failed to send email: {e}"
         
-@scheduler.task('interval', id='task_reminder_job', seconds=30)
-def task_reminder():
-    print("⏳ Running scheduler...")
-    with app.app_context():
-        now = datetime.now()
-        in_15_mins = now + timedelta(minutes=1)
+# @scheduler.task('interval', id='task_reminder_job', seconds=30)
+# def task_reminder():
+#     print("⏳ Running scheduler...")
+#     with app.app_context():
+#         now = datetime.now()
+#         in_15_mins = now + timedelta(minutes=1)
 
-        tasks = Task.query.filter(
-            Task.task_time <= in_15_mins,
-            Task.task_time >= now,
-            Task.notified == False
-        ).all()
+#         tasks = Task.query.filter(
+#             Task.task_time <= in_15_mins,
+#             Task.task_time >= now,
+#             Task.notified == False
+#         ).all()
 
-        print(f"📌 Found {len(tasks)} upcoming tasks...")
+#         print(f"📌 Found {len(tasks)} upcoming tasks...")
 
-        for task in tasks:
-            msg = Message(
-                subject="⏰ Task Reminder",
-                sender=app.config['MAIL_USERNAME'],
-                recipients=[task.user_email],
-                body=f"Reminder: Your task '{task.task}' is due at {task.task_time.strftime('%I:%M %p')}."
-            )
-            try:
-                mail.send(msg)
-                task.notified = True
-                db.session.commit()
-                print(f"✅ Email sent to {task.user_email}")
-            except Exception as e:
-                print(f"❌ Failed to send email to {task.user_email}: {e}")
+#         for task in tasks:
+#             msg = Message(
+#                 subject="⏰ Task Reminder",
+#                 sender=app.config['MAIL_USERNAME'],
+#                 recipients=[task.user_email],
+#                 body=f"Reminder: Your task '{task.task}' is due at {task.task_time.strftime('%I:%M %p')}."
+#             )
+#             try:
+#                 mail.send(msg)
+#                 task.notified = True
+#                 db.session.commit()
+#                 print(f"✅ Email sent to {task.user_email}")
+#             except Exception as e:
+#                 print(f"❌ Failed to send email to {task.user_email}: {e}")
 
 
 
