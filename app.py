@@ -9,6 +9,15 @@ import random
 from flask_apscheduler import APScheduler
 from flask_mail import Mail, Message
 
+
+
+
+# Load environment variables
+load_dotenv()
+
+# Flask setup
+app = Flask(__name__)
+
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
@@ -25,12 +34,6 @@ scheduler = APScheduler()
 scheduler.init_app(app)
 scheduler.start()
 
-
-# Load environment variables
-load_dotenv()
-
-# Flask setup
-app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "defaultsecret")
 
 # Database config
