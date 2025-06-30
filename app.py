@@ -187,7 +187,7 @@ def test_email():
 def task_reminder():
     with app.app_context():
         now = datetime.now()
-        in_15_mins = now + timedelta(minutes=5)
+        in_15_mins = now + timedelta(minutes=1)
         tasks = Task.query.filter(
             Task.task_time <= in_15_mins,
             Task.task_time >= now,
