@@ -167,11 +167,18 @@ def mood_tracker():
         elif "reset_water" in request.form:
             session["water_count"] = 0
 
+    # Safely get values to pass to template
     latest_mood = Mood.query.filter_by(user_email=user_email).order_by(Mood.timestamp.desc()).first()
     todos = Task.query.filter_by(user_email=user_email).all()
-    water = session.get("water_count", 0)
+    session["water_count"] = session.get("water_count", 0)  # ensure it's set
+    water = session["water_count"]
 
-    return render_template("mood.html", mood=latest_mood.mood if latest_mood else None, todos=todos, water=water)
+    return render_template("mood.html",
+        mood=latest_mood.mood if latest_mood else None,
+        todos=todos,
+        water=water
+    )
+
 
 @app.route("/timer", methods=["GET", "POST"])
 def timer():
@@ -224,6 +231,9 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()
         print("✅ Tables created!")
+
+with app.app_context():
+    db.create_all()
 
 
 
