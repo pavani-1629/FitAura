@@ -187,15 +187,18 @@ def test_email():
         
 @scheduler.task('interval', id='task_reminder_job', seconds=30)
 def task_reminder():
-    print("in scheduler")
+    print("⏳ Running scheduler...")
     with app.app_context():
         now = datetime.now()
         in_15_mins = now + timedelta(minutes=1)
+
         tasks = Task.query.filter(
             Task.task_time <= in_15_mins,
             Task.task_time >= now,
             Task.notified == False
         ).all()
+
+        print(f"📌 Found {len(tasks)} upcoming tasks...")
 
         for task in tasks:
             msg = Message(
@@ -208,10 +211,10 @@ def task_reminder():
                 mail.send(msg)
                 task.notified = True
                 db.session.commit()
-                return "✅ Email sent!" + task.user_email
                 print(f"✅ Email sent to {task.user_email}")
             except Exception as e:
-                print(f"❌ Failed to send email: {e}")
+                print(f"❌ Failed to send email to {task.user_email}: {e}")
+
 
 
 @app.route("/diet/general", methods=["POST"])
