@@ -228,9 +228,9 @@ def forgot_password():
 # Only initialize DB if running directly (optional for Render)
 if __name__ == "__main__":
     print("📁 Initializing database...")
-    with app.app_context():
-        db.create_all()
-        print("✅ Tables created!")
+    # with app.app_context():
+    #     db.create_all()
+    #     print("✅ Tables created!")
 
 with app.app_context():
     db.create_all()
