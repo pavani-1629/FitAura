@@ -126,9 +126,29 @@ def about():
 @app.route("/bmi")
 def bmi():
     return render_template("bmi.html")
-@app.route("/schedule")
+    
+@app.route("/schedule", methods=["GET", "POST"])
 def schedule():
+    if "user" not in session:
+        return redirect("/login")
+
+    if request.method == "POST":
+        task = request.form["task"]
+        task_time = request.form["task_time"]
+        user_email = session["user"]["email"]
+
+        new_task = Task(
+            user_email=user_email,
+            task=task,
+            date=task_time.split("T")[0],  # extract just the date
+            task_time=datetime.strptime(task_time, "%Y-%m-%dT%H:%M")
+        )
+        db.session.add(new_task)
+        db.session.commit()
+        return redirect("/mood")  # or /index or show a flash message
+
     return render_template("schedule.html")
+
 
 @app.route("/diet")
 def diet():
