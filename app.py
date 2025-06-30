@@ -123,6 +123,9 @@ def about():
 @app.route("/bmi")
 def bmi():
     return render_template("bmi.html")
+@app.route("/schedule")
+def schedule():
+    return render_template("schedule.html")
 
 @app.route("/diet")
 def diet():
