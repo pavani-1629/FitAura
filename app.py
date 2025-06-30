@@ -6,6 +6,25 @@ import os
 import google.generativeai as genai
 from datetime import datetime
 import random
+from flask_apscheduler import APScheduler
+from flask_mail import Mail, Message
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.getenv("EMAIL_USER")
+app.config['MAIL_PASSWORD'] = os.getenv("EMAIL_PASS")
+
+mail = Mail(app)
+
+class Config:
+    SCHEDULER_API_ENABLED = True
+
+app.config.from_object(Config())
+scheduler = APScheduler()
+scheduler.init_app(app)
+scheduler.start()
+
 
 # Load environment variables
 load_dotenv()
@@ -21,6 +40,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # ========== MODELS ==========
+
+
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False)
@@ -37,8 +59,10 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_email = db.Column(db.String(120), nullable=False)
     task = db.Column(db.String(255), nullable=False)
-    date = db.Column(db.String(10), nullable=False)
+    date = db.Column(db.String(10), nullable=False)  # 🟥 Change this line
+    task_time = db.Column(db.DateTime, nullable=False)  # 🟩 New
     completed = db.Column(db.Boolean, default=False)
+    notified = db.Column(db.Boolean, default=False)
 
 # ========== Gemini AI ==========
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
@@ -103,6 +127,34 @@ def bmi():
 @app.route("/diet")
 def diet():
     return render_template("diet.html")
+
+
+@scheduler.task('interval', id='task_reminder_job', seconds=60)
+def task_reminder():
+    with app.app_context():
+        now = datetime.now()
+        in_15_mins = now + timedelta(minutes=15)
+        tasks = Task.query.filter(
+            Task.task_time <= in_15_mins,
+            Task.task_time >= now,
+            Task.notified == False
+        ).all()
+
+        for task in tasks:
+            msg = Message(
+                subject="⏰ Task Reminder",
+                sender=app.config['MAIL_USERNAME'],
+                recipients=[task.user_email],
+                body=f"Reminder: Your task '{task.task}' is due at {task.task_time.strftime('%I:%M %p')}."
+            )
+            try:
+                mail.send(msg)
+                task.notified = True
+                db.session.commit()
+                print(f"✅ Email sent to {task.user_email}")
+            except Exception as e:
+                print(f"❌ Failed to send email: {e}")
+
 
 @app.route("/diet/general", methods=["POST"])
 def diet_general():
