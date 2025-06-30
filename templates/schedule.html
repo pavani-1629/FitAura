@@ -20,19 +20,25 @@
     </form>
 
     <!-- ✅ Task List -->
-    {% if tasks %}
-    <h3 class="text-xl font-semibold text-emerald-700 mt-10 mb-4">🗓️ Your Tasks</h3>
-    <ul class="space-y-2">
-      {% for task in tasks %}
-      <li class="p-3 bg-emerald-100 rounded-lg shadow-sm flex justify-between items-center">
-        <span>{{ task.task }}</span>
-        <span class="text-sm text-gray-600">{{ task.task_time.strftime('%b %d, %Y %I:%M %p') }}</span>
-      </li>
-      {% endfor %}
-    </ul>
-    {% else %}
-    <p class="text-center text-gray-500 mt-8">No tasks scheduled yet.</p>
-    {% endif %}
+{% if tasks %}
+<h3 class="text-xl font-semibold text-emerald-700 mt-10 mb-4">🗓️ Your Tasks</h3>
+<ul class="space-y-2">
+  {% for task in tasks %}
+  <li class="p-3 bg-emerald-100 rounded-lg shadow-sm flex justify-between items-center">
+    <div>
+      <span class="font-medium">{{ task.task }}</span><br>
+      <span class="text-sm text-gray-600">{{ task.task_time.strftime('%b %d, %Y %I:%M %p') }}</span>
+    </div>
+    <form action="{{ url_for('delete_task', task_id=task.id) }}" method="POST">
+      <button type="submit" class="ml-4 text-red-600 hover:underline">❌ Delete</button>
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="text-center text-gray-500 mt-8">No tasks scheduled yet.</p>
+{% endif %}
+
   </div>
 </body>
 </html>
