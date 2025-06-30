@@ -183,8 +183,9 @@ def test_email():
     except Exception as e:
         return f"❌ Failed to send email: {e}"
         
-@scheduler.task('interval', id='task_reminder_job', seconds=60)
+@scheduler.task('interval', id='task_reminder_job', seconds=30)
 def task_reminder():
+    print("in scheduler")
     with app.app_context():
         now = datetime.now()
         in_15_mins = now + timedelta(minutes=1)
