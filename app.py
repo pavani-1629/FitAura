@@ -136,7 +136,7 @@ def diet():
 def task_reminder():
     with app.app_context():
         now = datetime.now()
-        in_15_mins = now + timedelta(minutes=15)
+        in_15_mins = now + timedelta(minutes=5)
         tasks = Task.query.filter(
             Task.task_time <= in_15_mins,
             Task.task_time >= now,
