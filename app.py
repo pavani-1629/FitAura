@@ -157,7 +157,20 @@ def schedule():
 def diet():
     return render_template("diet.html")
 
-
+@app.route("/test-email")
+def test_email():
+    try:
+        msg = Message(
+            subject="📧 Test Email",
+            sender=app.config['MAIL_USERNAME'],
+            recipients=["yourgmail@gmail.com"],  # your actual email here
+            body="This is a test email from FitAura."
+        )
+        mail.send(msg)
+        return "✅ Email sent!"
+    except Exception as e:
+        return f"❌ Failed to send email: {e}"
+        
 @scheduler.task('interval', id='task_reminder_job', seconds=60)
 def task_reminder():
     with app.app_context():
