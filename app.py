@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import google.generativeai as genai
-from datetime import datetime
+from datetime import datetime, timedelta
 import random
 from flask_apscheduler import APScheduler
 from flask_mail import Mail, Message
